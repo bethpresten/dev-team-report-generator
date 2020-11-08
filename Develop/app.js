@@ -18,37 +18,66 @@ const newEmployee = () =>
     inquirer.prompt
         ([
             {
-                type: 'list',
-                name: 'employeeType',
-                message: 'What type of employee are you?',
-                choices: ["Manager", "Engineer", "Intern"]
+                type: "input",
+                name: "username",
+                message: "What is your name?",
             },
+            {
+                type: "list",
+                name: "employeeType",
+                message: "What type of employee are you?",
+                choices: ["manager", "engineer", "intern"]
+            },
+            {
+                type: "number",
+                name: "id",
+                message: "What is your employee ID number?",
+            },
+            {
+                type: "input",
+                name: "email",
+                message: "What is your email address?",
+            }
         ])
         .then((answers) => {
-            if (newEmployee === "manager") {
-                return newManager
-            } else if (newEmployee === "intern") {
-                return newIntern
-            } else {
-                return newEngineer
+            if (answers.employeeType === "manager") {
+                return newManager()
+            } else if (answers.employeeType === "intern") {
+                return newIntern()
+            } else if (answers.employeeType === "engineer") {
+                return newEngineer()
             }
+            return (newEmployee.employeeType);
+        })
+        // .then((answers) => {
+        //     if (answers.addEmployee === "yes") {
+        //         return newEmployee()
+        //     } else if (answers.employeeType === "no") {
+        //         writeHTML
+        //     }
+        // })
+        // .then((answers) => console.log(answers))
+        .catch((err) => console.error(err));
 
-        });
 
-newEmployee()
-    .then((answers) => console.log("Successfully wrote answers!"));
-// .catch ((err) => console.error(err));
+newEmployee();
 
 const newManager = () => {
     return inquirer.prompt([
         {
-            type: 'input',
-            name: 'title',
-            message: 'What is the title of your project?',
+            type: "input",
+            name: "officeNumber",
+            message: "What is your office number?",
         },
-    ]).then(function (data) {
-        console.log(data);
-        writeHTML(html, data)
+        {
+            type: "list",
+            name: "addEmployee",
+            message: "Would you like to add another employee??",
+            choices: ["yes", "no"]
+        },
+    ]).then(function (answers) {
+        console.log(answers);
+        writeHTML(html, answers)
     });
 };
 
@@ -56,12 +85,18 @@ const newIntern = () => {
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'title',
-            message: 'What is the title of your project?',
+            name: 'school',
+            message: 'WWhere did you or are you going to school?',
         },
-    ]).then(function (data) {
-        console.log(data);
-        writeHTML(html, data)
+        {
+            type: "list",
+            name: "addEmployee",
+            message: "Would you like to add another employee??",
+            choices: ["yes", "no"]
+        },
+    ]).then(function (answers) {
+        console.log(answers);
+        writeHTML(html, answers)
     });
 };
 
@@ -69,10 +104,16 @@ const newEngineer = () => {
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'title',
-            message: 'What is the title of your project?',
+            name: 'github',
+            message: 'What is your github username?',
         },
-    ]).then(function (data) {
+        {
+            type: "list",
+            name: "addEmployee",
+            message: "Would you like to add another employee??",
+            choices: ["yes", "no"]
+        },
+    ]).then(function (answers) {
         console.log(data);
         writeHTML(html, data)
     });
@@ -84,6 +125,9 @@ const newEngineer = () => {
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
+// renderManager();
+// renderEngineer();
+// renderIntern();
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the

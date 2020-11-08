@@ -12,6 +12,73 @@ const render = require("./lib/htmlRenderer");
 
 
 // Write code to use inquirer to gather information about the development team members,
+
+
+const newEmployee = () =>
+    inquirer.prompt
+        ([
+            {
+                type: 'list',
+                name: 'employeeType',
+                message: 'What type of employee are you?',
+                choices: ["Manager", "Engineer", "Intern"]
+            },
+        ])
+        .then((answers) => {
+            if (newEmployee === "manager") {
+                return newManager
+            } else if (newEmployee === "intern") {
+                return newIntern
+            } else {
+                return newEngineer
+            }
+
+        });
+
+newEmployee()
+    .then((answers) => console.log("Successfully wrote answers!"));
+// .catch ((err) => console.error(err));
+
+const newManager = () => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: 'What is the title of your project?',
+        },
+    ]).then(function (data) {
+        console.log(data);
+        writeHTML(html, data)
+    });
+};
+
+const newIntern = () => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: 'What is the title of your project?',
+        },
+    ]).then(function (data) {
+        console.log(data);
+        writeHTML(html, data)
+    });
+};
+
+const newEngineer = () => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: 'What is the title of your project?',
+        },
+    ]).then(function (data) {
+        console.log(data);
+        writeHTML(html, data)
+    });
+};
+
+
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required

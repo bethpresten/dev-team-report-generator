@@ -16,26 +16,11 @@ const employeeQuestions = () =>
   inquirer.prompt
     ([
       {
-        type: "input",
-        name: "name",
-        message: "What is your name?",
-      },
-      {
         type: "list",
         name: "role",
         message: "What type of employee are you?",
         choices: ["manager", "engineer", "intern"]
       },
-      {
-        type: "number",
-        name: "id",
-        message: "What is your employee ID number?",
-      },
-      {
-        type: "input",
-        name: "email",
-        message: "What is your email address?",
-      }
     ])
     // identifying the role and then sending back user-specific question(s)
     .then((answers) => {
@@ -63,6 +48,21 @@ const renderManager = (answers) => {
   return inquirer.prompt([
     {
       type: "input",
+      name: "name",
+      message: "What is your name?",
+    },
+    {
+      type: "number",
+      name: "id",
+      message: "What is your employee ID number?",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "What is your email address?",
+    },
+    {
+      type: "input",
       name: "officeNumber",
       message: "What is your office number?",
     },
@@ -73,23 +73,39 @@ const renderManager = (answers) => {
     },
     // pushing all the information to the constructor
   ]).then(function (managerAnswers) {
-    const manager = new Manager(answers.name, answers.role, answers.id, answers.email, managerAnswers.officeNumber);
+    const manager = new Manager(managerAnswers.name, managerAnswers.role, managerAnswers.id, managerAnswers.email, managerAnswers.officeNumber);
     employees.push(manager);
 
     // asking to add additional employees or writing to the HTML if finished
-    console.log(answers, managerAnswers);
-    if (answers.addEmployee === true) {
+    console.log(managerAnswers);
+    if (managerAnswers.addEmployee === true) {
       return employeeQuestions();
-    } else if (answers.addEmployee === false) {
+    } else if (managerAnswers.addEmployee === false) {
       return writeHTML();
     }
-    console.log("Here is your team!")
+    console.log("Here is your team with manager(s)!")
   });
 };
 
 // engineer specific questions delivered via node
 const renderEngineer = () => {
+
   return inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?",
+    },
+    {
+      type: "number",
+      name: "id",
+      message: "What is your employee ID number?",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "What is your email address?",
+    },
     {
       type: "input",
       name: "github",
@@ -102,21 +118,37 @@ const renderEngineer = () => {
     },
     // pushing engineer questions to the empty array
   ]).then(function (engineerAnswers) {
-    const engineer = new Engineer(answers.name, answers.role, answers.id, answers.email, engineerAnswers.github);
-    employees.push(manager);
+    const engineer = new Engineer(engineerAnswers.name, engineerAnswers.role, engineerAnswers.id, engineerAnswers.email, engineerAnswers.github);
+    employees.push(engineer);
     // asking if the user needs to add additional team members
-    console.log(answers, engineerAnswers);
-    if (answers.addEmployee === false) {
+    console.log(engineerAnswers);
+    if (engineerAnswers.addEmployee === false) {
       return employeeQuestions();
-    } else if (answers.addEmployee === true) {
+    } else if (engineerAnswers.addEmployee === true) {
       return writeHTML();
     }
+    console.log("Here is your team with engineer(s)!")
   });
 };
 
 // intern specific questions delivered via node
 const renderIntern = () => {
   return inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?",
+    },
+    {
+      type: "number",
+      name: "id",
+      message: "What is your employee ID number?",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "What is your email address?",
+    },
     {
       type: "input",
       name: "school",
@@ -129,15 +161,16 @@ const renderIntern = () => {
     },
     // writing all the answers to the constructor and pushing it to the empty array
   ]).then(function (internAnswers) {
-    const intern = new Intern(answers.name, answers.role, answers.id, answers.email, internAnswers.school);
+    const intern = new Intern(internAnswers.name, internAnswers.role, internAnswers.id, internAnswers.email, internAnswers.school);
     employees.push(intern);
     // identifying if the user wants to add more team members
-    console.log(answers, internAnswers);
-    if (answers.addEmployee === true) {
+    console.log(internAnswers);
+    if (internAnswers.addEmployee === true) {
       return employeeQuestions();
-    } else if (answers.addEmployee === false) {
+    } else if (internAnswers.addEmployee === false) {
       return writeHTML();
     }
+    console.log("Here is your team with intern(s)!")
   });
 };
 

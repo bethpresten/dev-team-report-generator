@@ -11,136 +11,136 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
-// Write code to use inquirer to gather information about the development team members,
-
-
-const newEmployee = () =>
-    inquirer.prompt
-        ([
-            {
-                type: "input",
-                name: "username",
-                message: "What is your name?",
-            },
-            {
-                type: "list",
-                name: "employeeType",
-                message: "What type of employee are you?",
-                choices: ["manager", "engineer", "intern"]
-            },
-            {
-                type: "number",
-                name: "id",
-                message: "What is your employee ID number?",
-            },
-            {
-                type: "input",
-                name: "email",
-                message: "What is your email address?",
-            }
-        ])
-        .then((answers) => {
-            if (answers.employeeType === "manager") {
-                return newManager()
-            } else if (answers.employeeType === "intern") {
-                return newIntern()
-            } else if (answers.employeeType === "engineer") {
-                return newEngineer()
-            }
-            return (newEmployee.employeeType);
-        })
-        // .then((answers) => {
-        //     if (answers.addEmployee === "yes") {
-        //         return newEmployee()
-        //     } else if (answers.employeeType === "no") {
-        //         writeHTML
-        //     }
-        // })
-        // .then((answers) => console.log(answers))
-        .catch((err) => console.error(err));
-
-
-newEmployee();
-
-const newManager = () => {
-    return inquirer.prompt([
-        {
-            type: "input",
-            name: "officeNumber",
-            message: "What is your office number?",
-        },
-        {
-            type: "list",
-            name: "addEmployee",
-            message: "Would you like to add another employee??",
-            choices: ["yes", "no"]
-        },
-    ]).then(function (answers) {
-        console.log(answers);
-        writeHTML(html, answers)
+const employeeQuestions = () =>
+  inquirer.prompt
+    ([
+      {
+        type: "input",
+        name: "name",
+        message: "What is your name?",
+      },
+      {
+        type: "list",
+        name: "role",
+        message: "What type of employee are you?",
+        choices: ["manager", "engineer", "intern"]
+      },
+      {
+        type: "number",
+        name: "id",
+        message: "What is your employee ID number?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "What is your email address?",
+      }
+    ])
+    .then((answers) => {
+      if (answers.role === "manager") {
+        return renderManager(answers)
+      } else if (answers.role === "intern") {
+        return renderIntern()
+      } else if (answers.role === "engineer") {
+        return renderEngineer()
+      }
+      return (employeeQuestions.role);
+    }).then(function (answers) {
+      console.log(answers);
+      writeHTML(outputPath, answers)
     });
+
+
+employeeQuestions();
+const employees = [];
+
+const renderManager = (answers) => {
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "officeNumber",
+      message: "What is your office number?",
+    },
+    {
+      type: "list",
+      name: "addEmployee",
+      message: "Would you like to add another employee??",
+      choices: ["yes", "no"]
+    },
+  ]).then(function (managerAnswers) {
+    const manager = new Manager(answers.name, answers.role, answers.id, answers.email, managerAnswers.officeNumber);
+    employees.push(manager);
+
+    console.log(answers);
+    if (answers.addEmployee === "yes") {
+      return employeeQuestions();
+    } else if (answers.addEmployee === "no") {
+      return writeHTML();
+    }
+  });
 };
 
-const newIntern = () => {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'school',
-            message: 'WWhere did you or are you going to school?',
-        },
-        {
-            type: "list",
-            name: "addEmployee",
-            message: "Would you like to add another employee??",
-            choices: ["yes", "no"]
-        },
-    ]).then(function (answers) {
-        console.log(answers);
-        writeHTML(html, answers)
-    });
+const renderIntern = () => {
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "school",
+      message: "Where did you or are you going to school?",
+    },
+    {
+      type: "list",
+      name: "addEmployee",
+      message: "Would you like to add another employee??",
+      choices: ["yes", "no"]
+    },
+  ]).then(function (internAnswers) {
+    const intern = new Intern(answers.name, answers.role, answers.id, answers.email, internAnswers.officeNumber);
+    employees.push(intern);
+
+    console.log(answers);
+    if (answers.addEmployee === "yes") {
+      return employeeQuestions();
+    } else if (answers.addEmployee === "no") {
+      return writeHTML();
+    }
+  });
 };
 
-const newEngineer = () => {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'github',
-            message: 'What is your github username?',
-        },
-        {
-            type: "list",
-            name: "addEmployee",
-            message: "Would you like to add another employee??",
-            choices: ["yes", "no"]
-        },
-    ]).then(function (answers) {
-        console.log(data);
-        writeHTML(html, data)
-    });
+const renderEngineer = () => {
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "github",
+      message: "What is your github name?",
+    },
+    {
+      type: "list",
+      name: "addEmployee",
+      message: "Would you like to add another employee??",
+      choices: ["yes", "no"]
+    },
+  ]).then(function (engineerAnswers) {
+    const engineer = new Engineer(answers.name, answers.role, answers.id, answers.email, engineerAnswers.officeNumber);
+    employees.push(manager);
+
+    console.log(answers);
+    if (answers.addEmployee === "yes") {
+      return employeeQuestions();
+    } else if (answers.addEmployee === "no") {
+      return writeHTML();
+    }
+  });
 };
 
 
-// and to create objects for each team member (using the correct classes as blueprints!)
 
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-// renderManager();
-// renderEngineer();
-// renderIntern();
+function writeHTML() {
 
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+  fs.writeFile(outputPath, render(employees), null, function (err) {
+    if (err) {
+      return console.log(err);
+    } else {
+      console.log("Successfully wrote to HTML");
+    }
+  });
+};

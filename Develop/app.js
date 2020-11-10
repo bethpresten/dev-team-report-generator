@@ -57,6 +57,7 @@ const employeeQuestions = () =>
 employeeQuestions();
 // empty array to dump all the objects
 const employees = [];
+// const answers = [name, role, id, email];
 // manager-specific questions plus adding in additional team members
 const renderManager = (answers) => {
   return inquirer.prompt([
@@ -66,10 +67,9 @@ const renderManager = (answers) => {
       message: "What is your office number?",
     },
     {
-      type: "list",
+      type: "validate",
       name: "addEmployee",
       message: "Would you like to add another employee??",
-      choices: ["yes", "no"]
     },
     // pushing all the information to the constructor
   ]).then(function (managerAnswers) {
@@ -77,10 +77,38 @@ const renderManager = (answers) => {
     employees.push(manager);
 
     // asking to add additional employees or writing to the HTML if finished
-    console.log(answers);
-    if (answers.addEmployee === "yes") {
+    console.log(answers, managerAnswers);
+    if (answers.addEmployee === true) {
       return employeeQuestions();
-    } else if (answers.addEmployee === "no") {
+    } else if (answers.addEmployee === false) {
+      return writeHTML();
+    }
+    console.log("Here is your team!")
+  });
+};
+
+// engineer specific questions delivered via node
+const renderEngineer = () => {
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "github",
+      message: "What is your github name?",
+    },
+    {
+      type: "validate",
+      name: "addEmployee",
+      message: "Would you like to add another employee??",
+    },
+    // pushing engineer questions to the empty array
+  ]).then(function (engineerAnswers) {
+    const engineer = new Engineer(answers.name, answers.role, answers.id, answers.email, engineerAnswers.github);
+    employees.push(manager);
+    // asking if the user needs to add additional team members
+    console.log(answers, engineerAnswers);
+    if (answers.addEmployee === false) {
+      return employeeQuestions();
+    } else if (answers.addEmployee === true) {
       return writeHTML();
     }
   });
@@ -95,51 +123,24 @@ const renderIntern = () => {
       message: "Where did you or are you going to school?",
     },
     {
-      type: "list",
+      type: "validate",
       name: "addEmployee",
       message: "Would you like to add another employee??",
-      choices: ["yes", "no"]
     },
     // writing all the answers to the constructor and pushing it to the empty array
   ]).then(function (internAnswers) {
-    const intern = new Intern(answers.name, answers.role, answers.id, answers.email, internAnswers.officeNumber);
+    const intern = new Intern(answers.name, answers.role, answers.id, answers.email, internAnswers.school);
     employees.push(intern);
     // identifying if the user wants to add more team members
-    console.log(answers);
-    if (answers.addEmployee === "yes") {
+    console.log(answers, internAnswers);
+    if (answers.addEmployee === true) {
       return employeeQuestions();
-    } else if (answers.addEmployee === "no") {
+    } else if (answers.addEmployee === false) {
       return writeHTML();
     }
   });
 };
-// engineer specific questions delivered via node
-const renderEngineer = () => {
-  return inquirer.prompt([
-    {
-      type: "input",
-      name: "github",
-      message: "What is your github name?",
-    },
-    {
-      type: "list",
-      name: "addEmployee",
-      message: "Would you like to add another employee??",
-      choices: ["yes", "no"]
-    },
-    // pushing engineer questions to the empty array
-  ]).then(function (engineerAnswers) {
-    const engineer = new Engineer(answers.name, answers.role, answers.id, answers.email, engineerAnswers.officeNumber);
-    employees.push(manager);
-    // asking if the user needs to add additional team members
-    console.log(answers);
-    if (answers.addEmployee === "yes") {
-      return employeeQuestions();
-    } else if (answers.addEmployee === "no") {
-      return writeHTML();
-    }
-  });
-};
+
 
 
 // function to write to the team.html

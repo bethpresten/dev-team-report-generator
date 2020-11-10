@@ -1,9 +1,16 @@
 .jumbotron {
-  background-color: lightcoral;
+  background-color: dimgrey;
+  color: white;
+}
+
+body {
+  background-image: url("./backgroundimage.jpeg");
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 .card-header {
-  background-color: blue;
+  background-color: slategrey;
   color: white;
 }
 

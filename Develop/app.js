@@ -25,7 +25,7 @@ const employeeQuestions = () =>
     // identifying the role and then sending back user-specific question(s)
     .then((answers) => {
       if (answers.role === "manager") {
-        return renderManager(answers)
+        return renderManager()
       } else if (answers.role === "intern") {
         return renderIntern()
       } else if (answers.role === "engineer") {
@@ -42,7 +42,6 @@ const employeeQuestions = () =>
 employeeQuestions();
 // empty array to dump all the objects
 const employees = [];
-// const answers = [name, role, id, email];
 // manager-specific questions plus adding in additional team members
 const renderManager = (answers) => {
   return inquirer.prompt([
@@ -78,9 +77,9 @@ const renderManager = (answers) => {
 
     // asking to add additional employees or writing to the HTML if finished
     console.log(managerAnswers);
-    if (managerAnswers.addEmployee === true) {
+    if (managerAnswers.addEmployee === 'y') {
       return employeeQuestions();
-    } else if (managerAnswers.addEmployee === false) {
+    } else {
       return writeHTML();
     }
     console.log("Here is your team with manager(s)!")
@@ -122,9 +121,9 @@ const renderEngineer = () => {
     employees.push(engineer);
     // asking if the user needs to add additional team members
     console.log(engineerAnswers);
-    if (engineerAnswers.addEmployee === false) {
+    if (engineerAnswers.addEmployee === 'y') {
       return employeeQuestions();
-    } else if (engineerAnswers.addEmployee === true) {
+    } else {
       return writeHTML();
     }
     console.log("Here is your team with engineer(s)!")
@@ -165,9 +164,9 @@ const renderIntern = () => {
     employees.push(intern);
     // identifying if the user wants to add more team members
     console.log(internAnswers);
-    if (internAnswers.addEmployee === true) {
+    if (internAnswers.addEmployee === 'y') {
       return employeeQuestions();
-    } else if (internAnswers.addEmployee === false) {
+    } else {
       return writeHTML();
     }
     console.log("Here is your team with intern(s)!")
@@ -182,7 +181,7 @@ function writeHTML() {
     if (err) {
       return console.log(err);
     } else {
-      console.log("Successfully wrote to HTML");
+      console.log("Successfully wrote the team!");
     }
   });
 };

@@ -18,7 +18,7 @@ const employeeQuestions = () =>
       {
         type: "list",
         name: "role",
-        message: "What type of employee are you?",
+        message: "What type of employee are you inputting?",
         choices: ["manager", "engineer", "intern"]
       },
     ])

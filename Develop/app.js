@@ -72,9 +72,8 @@ const renderManager = (answers) => {
     },
     // pushing all the information to the constructor
   ]).then(function (managerAnswers) {
-    const manager = new Manager(managerAnswers.name, managerAnswers.role, managerAnswers.id, managerAnswers.email, managerAnswers.officeNumber);
+    const manager = new Manager(managerAnswers.name, managerAnswers.id, managerAnswers.email, managerAnswers.officeNumber);
     employees.push(manager);
-
     // asking to add additional employees or writing to the HTML if finished
     console.log(managerAnswers);
     if (managerAnswers.addEmployee === 'y') {
@@ -82,7 +81,6 @@ const renderManager = (answers) => {
     } else {
       return writeHTML();
     }
-    console.log("Here is your team with manager(s)!")
   });
 };
 
@@ -117,7 +115,7 @@ const renderEngineer = () => {
     },
     // pushing engineer questions to the empty array
   ]).then(function (engineerAnswers) {
-    const engineer = new Engineer(engineerAnswers.name, engineerAnswers.role, engineerAnswers.id, engineerAnswers.email, engineerAnswers.github);
+    const engineer = new Engineer(engineerAnswers.name, engineerAnswers.id, engineerAnswers.email, engineerAnswers.github);
     employees.push(engineer);
     // asking if the user needs to add additional team members
     console.log(engineerAnswers);
@@ -126,7 +124,6 @@ const renderEngineer = () => {
     } else {
       return writeHTML();
     }
-    console.log("Here is your team with engineer(s)!")
   });
 };
 
@@ -139,7 +136,7 @@ const renderIntern = () => {
       message: "What is your name?",
     },
     {
-      type: "number",
+      type: "input",
       name: "id",
       message: "What is your employee ID number?",
     },
@@ -160,7 +157,7 @@ const renderIntern = () => {
     },
     // writing all the answers to the constructor and pushing it to the empty array
   ]).then(function (internAnswers) {
-    const intern = new Intern(internAnswers.name, internAnswers.role, internAnswers.id, internAnswers.email, internAnswers.school);
+    const intern = new Intern(internAnswers.name, internAnswers.id, internAnswers.email, internAnswers.school);
     employees.push(intern);
     // identifying if the user wants to add more team members
     console.log(internAnswers);
@@ -169,11 +166,8 @@ const renderIntern = () => {
     } else {
       return writeHTML();
     }
-    console.log("Here is your team with intern(s)!")
   });
 };
-
-
 
 // function to write to the team.html
 function writeHTML() {

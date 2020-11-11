@@ -1,0 +1,26 @@
+.jumbotron {
+  background-color: dimgrey;
+  color: white;
+  font-family: "Rock Salt", cursive;
+}
+
+body {
+  background-image: url("./backgroundimage.jpeg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.card-header {
+  background-color: slategrey;
+  color: white;
+  font-family: "Nanum Pen Script", cursive;
+  text-align: center;
+}
+
+.card-body {
+  background-color: whitesmoke;
+}
+
+.card {
+  margin: 20px;
+}

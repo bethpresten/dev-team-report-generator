@@ -13,26 +13,6 @@ const render = require("./lib/htmlRenderer");
 
 // set of questions that any user will use/ inquirer.prompt utilizes node to prompt the user via command line
 
-
-
-const employeeQuestions = () =>
-  inquirer.prompt
-    ([
-      {
-        type: "list",
-        name: "role",
-        message: "What type of employee are you inputting?",
-        choices: ["engineer", "intern"]
-      },
-    ])
-    // identifying the role and then sending back user-specific question(s)
-    .then((answers) => {
-      if (answers.role === "intern") {
-        renderIntern()
-      } else {
-        renderEngineer()
-      }
-    });
 // empty array to dump all the objects
 const employees = [];
 // manager-specific questions plus adding in additional team members
@@ -76,6 +56,29 @@ const renderManager = (answers) => {
     }
   });
 };
+
+//calling the function to deliver the questions to the user
+renderManager();
+
+const employeeQuestions = () =>
+  inquirer.prompt
+    ([
+      {
+        type: "list",
+        name: "role",
+        message: "What type of employee are you inputting?",
+        choices: ["engineer", "intern"]
+      },
+    ])
+    // identifying the role and then sending back user-specific question(s)
+    .then((answers) => {
+      if (answers.role === "intern") {
+        renderIntern()
+      } else {
+        renderEngineer()
+      }
+    });
+
 
 // engineer specific questions delivered via node
 const renderEngineer = () => {
@@ -173,5 +176,3 @@ function writeHTML() {
   });
 };
 
-//calling the function to deliver the questions to the user
-renderManager();

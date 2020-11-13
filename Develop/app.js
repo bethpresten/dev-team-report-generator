@@ -32,11 +32,7 @@ const employeeQuestions = () =>
       } else {
         renderEngineer()
       }
-      // return (employeeQuestions.role);
-      // pulling the answers, console logging the answers, and then writing the file
-    })
-
-
+    });
 // empty array to dump all the objects
 const employees = [];
 // manager-specific questions plus adding in additional team members
@@ -88,22 +84,22 @@ const renderEngineer = () => {
     {
       type: "input",
       name: "name",
-      message: "What is your name?",
+      message: "What is the engineer's name?",
     },
     {
       type: "number",
       name: "id",
-      message: "What is your employee ID number?",
+      message: "What is the engineer's employee ID number?",
     },
     {
       type: "input",
       name: "email",
-      message: "What is your email address?",
+      message: "What is the engineer's email address?",
     },
     {
       type: "input",
       name: "github",
-      message: "What is your github name?",
+      message: "What is the engineer's github name?",
     },
     {
       type: "validate",
@@ -130,22 +126,22 @@ const renderIntern = () => {
     {
       type: "input",
       name: "name",
-      message: "What is your name?",
+      message: "What is the intern's name?",
     },
     {
       type: "input",
       name: "id",
-      message: "What is your employee ID number?",
+      message: "What is your the intern's ID number?",
     },
     {
       type: "input",
       name: "email",
-      message: "What is your email address?",
+      message: "What is the intern's email address?",
     },
     {
       type: "input",
       name: "school",
-      message: "Where did you or are you going to school?",
+      message: "What is the intern's school?",
     },
     {
       type: "validate",
